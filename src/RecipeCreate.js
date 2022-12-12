@@ -1,90 +1,93 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+function RecipeCreate({recipes, setRecipes}) {
 
-function RecipeCreate({ recipes, setRecipes }) {
   // TODO: When the form is submitted, a new recipe should be created, and the form contents cleared.
   // TODO: Add the required input and textarea form elements.
   // TODO: Add the required submit and change handlers
-  const formInit = {
+  const initialFormState = {
     name: "",
     cuisine: "",
     photo: "",
     ingredients: "",
     preparation: "",
-  };
-  const [formData, setFormData] = useState(formInit);
-  const handleChange = ({ target }) => {
-    setFormData({
-      ...formData,
-      [target.name]: target.value,
-    });
-
-    
+  }
+  const [form,setForm] = useState({...initialFormState})
+  const handleChange = ({target}) => {
+    setForm({...form,
+      [target.name]: target.value})
   }
 
   const handleSubmit = (event) => {
-
-    event.preventDefault();
-    setRecipes(recipes => [...recipes, formData]);
-    setFormData(formInit);
-  };
+    event.preventDefault()
+    setRecipes([...recipes, form])
+    setForm({...initialFormState})
+  }
 
 
   return (
     <form name="create" onSubmit={handleSubmit}>
       <table>
         <tbody>
-          <tr>
+          <tr className="row">
             <td>
+              <label htmlFor="name"></label>
               <input
+                id="name"
                 name="name"
                 type="text"
-                id="name"
                 placeholder="Name"
-                value={formData.name}
+                required={true}
                 onChange={handleChange}
+                value={form.name}
               />
             </td>
             <td>
+              <label htmlFor="cuisine"></label>
               <input
+                id="cuisine"
                 name="cuisine"
                 type="text"
-                id="cuisine"
                 placeholder="Cuisine"
-                value={formData.cuisine}
+                required={true}
                 onChange={handleChange}
+                value={form.cuisine}
               />
             </td>
             <td>
+              <label htmlFor="photo"></label>
               <input
+                id="photo"
                 name="photo"
                 type="url"
-                id="photo"
-                placeholder="Photo"
-                value={formData.photo}
+                placeholder="URL"
+                required={true}
                 onChange={handleChange}
+                value={form.photo}
               />
             </td>
             <td>
+              <label htmlFor="ingredients"></label>
               <textarea
-                name="ingredients"
-                type="text"
                 id="ingredients"
+                name="ingredients"
                 placeholder="Ingredients"
-                value={formData.ingredients}
+                required={true}
                 onChange={handleChange}
-              ></textarea>
+                value={form.ingredients}
+                autoFocus= "on"
+              />
             </td>
             <td>
+              <label htmlFor="preparation"></label>
               <textarea
-                name="preparation"
-                type="text"
                 id="preparation"
-                placeholder="Preparation"
-                value={formData.preparation}
+                name="preparation"
+                placeholder="preparation"
+                required={true}
                 onChange={handleChange}
-              ></textarea>
+                value={form.preparation}
+              />
             </td>
-
             <td>
               <button type="submit">Create</button>
             </td>
@@ -96,4 +99,3 @@ function RecipeCreate({ recipes, setRecipes }) {
 }
 
 export default RecipeCreate;
-

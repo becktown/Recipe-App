@@ -1,18 +1,38 @@
 import React from "react";
-import RowConstruct from "./RowConstruct";
 
-function RecipeList({ recipes, setRecipes, handleDelete }) {
+function RecipeView({recipe, RecipeDelete}) {
+  return (
+        <tr className="row">
+          <td>{recipe.name}</td>
+          <td>{recipe.cuisine}</td>
+          <td className="photoFit">
+            <img src={recipe.photo} alt="" className="photoFit"/>
+          </td>
+          <td className="content_td"><p>{(recipe.ingredients)}</p></td>
+          <td className="content_td"><p>{(recipe.preparation)}</p></td>
+          <td>
+            <button name="delete" onClick={RecipeDelete}>Delete</button>
+          </td>
+        </tr>
+  )
+}
+
+function RecipeList({recipes, RecipeDelete}) {
+  const rows = recipes.map((recipe, index) => (
+    <RecipeView
+      key={index}
+      recipe={recipe}
+      RecipeDelete={() => RecipeDelete(index)}/>
+  )) 
   // TODO: Display the list of recipes using the structure of table that is provided.
   // TODO: Create at least one additional component that is used by this component.
   // TODO: Each recipe row must have a delete button - <button name="delete">Delete</button> - that deletes the post when clicked
-
-  //console.log(handleDelete);
 
   return (
     <div className="recipe-list">
       <table>
         <thead>
-          <tr>
+          <tr className="tableHeader">
             <th>Name</th>
             <th>Cuisine</th>
             <th>Photo</th>
@@ -21,12 +41,13 @@ function RecipeList({ recipes, setRecipes, handleDelete }) {
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <RowConstruct recipes={recipes} handleDelete={handleDelete} />
+        <tbody className="tableRows">
+          {rows}
         </tbody>
       </table>
     </div>
   );
 }
+
 
 export default RecipeList;
